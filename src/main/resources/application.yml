@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/board?characterEncoding=UTF-8&serverTimezone=UTC
+    username: anna
+    password: tladkssk
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  type-aliases-package: com.example.myproject.mapper
+  mapper-locations: mybatis/mapper/**/*.xml

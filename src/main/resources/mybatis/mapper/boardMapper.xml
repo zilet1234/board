@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.server.service.BoardRepository">
+
+    <select id="getMembers" resultType="com.example.server.domain.Member">
+        SELECT * FROM member;
+    </select>
+
+    <select id="checkName" parameterType="String" resultType="int">
+        SELECT count(*) FROM member where name = #{name};
+    </select>
+
+    <select id="checkEmail" parameterType="String" resultType="int">
+        SELECT count(*) FROM member where email = #{email};
+    </select>
+
+    <select id="checkMember" parameterType="String" resultType="com.example.server.domain.Member">
+        SELECT * FROM member where email = #{email} and password = #{password};
+    </select>
+
+    <select id="insertMember" parameterType="com.example.server.domain.Member">
+        INSERT INTO member (name, email, password) values (#{name}, #{email}, #{password});
+    </select>
+
+
+
+    <select id="getReviewByView" resultType="com.example.server.domain.Review">
+        SELECT * FROM review WHERE DATE(time) = DATE(NOW()) order by view desc, id desc limit 1;
+    </select>
+
+    <select id="getReview" parameterType="int" resultType="com.example.server.domain.Review">
+        SELECT * FROM review where id = #{id} order by time desc, id desc;
+    </select>
+
+
+
+    <select id="getReviewAll" resultType="com.example.server.domain.Review">
+        SELECT * FROM review order by time desc, id desc;
+    </select>
+
+    <select id="getReviewAllForReviewKeyAndCate" parameterType="com.example.server.vo.ReviewKeyAndCateVO" resultType="com.example.server.domain.Review">
+        SELECT * FROM review where content like CONCAT('%', #{keyword}, '%') and category in
+            <foreach collection="categoriList" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+         order by time desc, id desc;
+    </select>
+
+
+
+    <select id="getReviewAllByView"  resultType="com.example.server.domain.Review">
+        SELECT * FROM review order by view desc, id desc;
+    </select>
+
+    <select id="getReviewAllByViewInCate" parameterType="com.example.server.vo.ReviewKeyAndCateVO" resultType="com.example.server.domain.Review">
+        SELECT * FROM review where category in
+        <foreach collection="categoriList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+         order by view desc, id desc;
+    </select>
+
+    <select id="getReviewAllByViewInKey" parameterType="com.example.server.vo.ReviewKeyAndCateVO" resultType="com.example.server.domain.Review">
+        SELECT * FROM review where content like CONCAT('%', #{keyword}, '%') order by view desc, id desc;
+    </select>
+
+    <select id="getReviewAllByViewInKeyAndCate" parameterType="com.example.server.vo.ReviewKeyAndCateVO" resultType="com.example.server.domain.Review">
+        SELECT * FROM review where content like CONCAT('%', #{keyword}, '%') and category in
+        <foreach collection="categoriList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+         order by view desc, id desc;
+    </select>
+
+
+
+    <select id="getReviewAllByRating" resultType="com.example.server.domain.Review">
+        SELECT * FROM review order by rating desc, id desc;
+    </select>
+
+    <select id="getReviewAllByRatingInCate" parameterType="com.example.server.vo.ReviewKeyAndCateVO" resultType="com.example.server.domain.Review">
+        SELECT * FROM review where category in
+        <foreach collection="categoriList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+         order by rating desc, id desc;
+    </select>
+
+    <select id="getReviewAllByRatingInKey" parameterType="com.example.server.vo.ReviewKeyAndCateVO" resultType="com.example.server.domain.Review">
+        SELECT * FROM review where content like CONCAT('%', #{keyword}, '%') order by rating desc, id desc;
+    </select>
+
+    <select id="getReviewAllByRatingInCateAndKey" parameterType="com.example.server.vo.ReviewKeyAndCateVO" resultType="com.example.server.domain.Review">
+        SELECT * FROM review where content like CONCAT('%', #{keyword}, '%') and category in
+        <foreach collection="categoriList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+         order by rating desc, id desc;
+    </select>
+
+
+
+    <select id="getReviewAllByCategory" parameterType="com.example.server.vo.ReviewKeyAndCateVO" resultType="com.example.server.domain.Review">
+        SELECT * FROM review where category in
+        <foreach collection="categoriList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+         order by time desc, id desc;
+    </select>
+
+    <select id="getReviewAllByKeyword" parameterType="String" resultType="com.example.server.domain.Review">
+        SELECT * FROM review where content like CONCAT('%', #{keyword}, '%') order by time desc, id desc;
+    </select>
+
+    <select id="insertReview" parameterType="com.example.server.domain.Review">
+        INSERT INTO review (name, category, place, content, rating, time, view) values (#{name}, #{category}, #{place}, #{content}, #{rating}, #{time}, #{view});
+    </select>
+
+    <select id="updateReview" parameterType="com.example.server.domain.Review">
+        UPDATE review SET content= #{content} where id = #{id};
+    </select>
+
+    <select id="updateReviewByView" parameterType="com.example.server.domain.Review">
+        UPDATE review SET view = #{view} where id = #{id};
+    </select>
+
+    <select id="deleteReview" parameterType="int">
+        DELETE FROM review WHERE id = #{id};
+    </select>
+
+</mapper>
+
+
